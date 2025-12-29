@@ -10,9 +10,8 @@ bun install
 cp .env.example .env
 # Edit .env with your values
 
-# Run database migrations
-bun run db:generate
-bun run db:migrate
+# Push database schema
+bun run db:push
 
 # Start development server
 bun run start:dev
@@ -22,13 +21,18 @@ bun run start:dev
 
 ```
 docs/
-├── concepts/           # NestJS basics for beginners
+├── concepts/              # NestJS basics for beginners
 │   ├── dependency-injection.md
-│   └── modules-and-providers.md
+│   ├── modules-and-providers.md
+│   └── guards-and-strategies.md
 │
-└── architecture/       # System design & structure
-    ├── folder-structure.md
-    └── database-design.md
+├── architecture/          # System design & structure
+│   ├── folder-structure.md
+│   ├── database-design.md
+│   └── auth-flow.md
+│
+└── api/                   # API documentation
+    └── auth-endpoints.md
 ```
 
 ## Tech Stack
@@ -37,21 +41,20 @@ docs/
 |------------|---------|
 | NestJS 11 | Backend framework |
 | Drizzle ORM | Type-safe database queries |
-| PostgreSQL | Database (Supabase) |
+| PostgreSQL | Database (Supabase/Neon/Aurora) |
+| Passport | OAuth authentication |
+| JWT | Token-based authorization |
 | Bun | Package manager & runtime |
 
-## Current Status
+## Features Implemented
 
-This PR sets up the foundation:
 - [x] Configuration module with env validation
 - [x] Database connection with Drizzle ORM
 - [x] Database schemas (users, refresh_tokens)
-- [x] Documentation structure
-
-Coming in next PR:
-- [ ] OAuth authentication (Google, GitHub)
-- [ ] JWT token management
-- [ ] Auth endpoints
+- [x] OAuth authentication (Google, GitHub)
+- [x] JWT access & refresh tokens
+- [x] Auth endpoints (login, logout, refresh, me)
+- [x] Documentation
 
 ## Architecture
 
@@ -66,22 +69,76 @@ Each module:
 
 ```
 backend/src/
-├── main.ts                 # App entry point
-├── app.module.ts           # Root module
-├── config/                 # Environment configuration
-├── database/               # Drizzle connection
+├── main.ts                     # App entry point
+├── app.module.ts               # Root module
+├── config/                     # Environment configuration
+├── database/                   # Drizzle connection
+├── common/                     # Shared utilities
+│   ├── decorators/             # @CurrentUser()
+│   ├── guards/                 # JwtAuthGuard
+│   └── interfaces/             # JWT types
 └── modules/
     └── auth/
-        └── entities/       # Database schemas
+        ├── auth.module.ts
+        ├── auth.controller.ts
+        ├── auth.service.ts
+        ├── entities/           # Database schemas
+        ├── guards/             # OAuth guards
+        └── strategies/         # Passport strategies
 ```
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/auth/google` | Start Google OAuth |
+| GET | `/auth/google/callback` | Google callback |
+| GET | `/auth/github` | Start GitHub OAuth |
+| GET | `/auth/github/callback` | GitHub callback |
+| POST | `/auth/refresh` | Refresh access token |
+| POST | `/auth/logout` | Logout |
+| GET | `/auth/me` | Get current user (protected) |
 
 ## Environment Variables
 
 Required variables (see `.env.example`):
-- `DATABASE_URL` - PostgreSQL connection string
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth secret
-- `GITHUB_CLIENT_ID` - GitHub OAuth client ID
-- `GITHUB_CLIENT_SECRET` - GitHub OAuth secret
-- `JWT_SECRET` - Secret for signing tokens
-- `FRONTEND_URL` - Frontend app URL for redirects
+
+```env
+DATABASE_URL=postgresql://...
+GOOGLE_CLIENT_ID=xxx
+GOOGLE_CLIENT_SECRET=xxx
+GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback
+GITHUB_CLIENT_ID=xxx
+GITHUB_CLIENT_SECRET=xxx
+GITHUB_CALLBACK_URL=http://localhost:3000/auth/github/callback
+JWT_SECRET=xxx
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+FRONTEND_URL=http://localhost:5173
+```
+
+## Database Scripts
+
+```bash
+bun run db:push      # Push schema to database (dev)
+bun run db:generate  # Generate migration files
+bun run db:migrate   # Run migrations
+bun run db:studio    # Open Drizzle Studio GUI
+```
+
+## Switching Databases
+
+To switch PostgreSQL providers, just change `DATABASE_URL`:
+
+```env
+# Supabase
+DATABASE_URL="postgresql://postgres:pass@db.xxx.supabase.co:5432/postgres"
+
+# Neon
+DATABASE_URL="postgresql://user:pass@ep-xxx.neon.tech/dbname"
+
+# AWS Aurora
+DATABASE_URL="postgresql://user:pass@xxx.rds.amazonaws.com:5432/dbname"
+```
+
+No code changes required - it's standard PostgreSQL.

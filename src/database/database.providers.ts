@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
 import { ConfigService } from '@nestjs/config';
+import postgres from 'postgres';
 
 export const DATABASE_CONNECTION = 'DATABASE_CONNECTION';
 

@@ -28,21 +28,30 @@ backend/
 │   │       └── jwt-payload.interface.ts   # JWT types
 │   │
 │   └── modules/                     # Feature modules
-│       └── auth/
-│           ├── auth.module.ts       # Auth module definition
-│           ├── auth.controller.ts   # Auth endpoints
-│           ├── auth.service.ts      # Auth business logic
-│           ├── entities/            # Database schemas
-│           │   ├── index.ts
-│           │   ├── user.schema.ts
-│           │   └── refresh-token.schema.ts
-│           ├── guards/              # OAuth guards
-│           │   ├── google-auth.guard.ts
-│           │   └── github-auth.guard.ts
-│           └── strategies/          # Passport strategies
-│               ├── google.strategy.ts
-│               ├── github.strategy.ts
-│               └── jwt.strategy.ts
+│       ├── auth/
+│       │   ├── auth.module.ts       # Auth module definition
+│       │   ├── auth.controller.ts   # Auth endpoints
+│       │   ├── auth.service.ts      # Auth business logic
+│       │   ├── entities/            # Database schemas
+│       │   │   ├── index.ts
+│       │   │   ├── user.schema.ts
+│       │   │   └── refresh-token.schema.ts
+│       │   ├── guards/              # OAuth guards
+│       │   │   ├── google-auth.guard.ts
+│       │   │   └── github-auth.guard.ts
+│       │   └── strategies/          # Passport strategies
+│       │       ├── google.strategy.ts
+│       │       ├── github.strategy.ts
+│       │       └── jwt.strategy.ts
+│       │
+│       └── subjects/
+│           ├── subjects.module.ts   # Subjects module definition
+│           ├── subjects.controller.ts
+│           ├── subjects.service.ts
+│           ├── index.ts             # Barrel export
+│           └── entities/
+│               ├── index.ts
+│               └── subject.schema.ts
 │
 ├── docs/                            # Documentation
 │   ├── README.md                    # Docs index
@@ -54,7 +63,8 @@ backend/
 │   │   ├── folder-structure.md      # This file
 │   │   └── auth-flow.md             # OAuth flow explanation
 │   └── api/                         # API documentation
-│       └── auth-endpoints.md        # Auth API reference
+│       ├── auth-endpoints.md        # Auth API reference
+│       └── subjects-endpoints.md    # Subjects API reference
 │
 ├── drizzle/                         # Generated migrations
 │   └── *.sql                        # SQL migration files
@@ -101,20 +111,27 @@ Feature modules. Each module is self-contained.
 
 ```
 modules/
-└── auth/
-    ├── auth.module.ts       # Module definition
-    ├── auth.controller.ts   # HTTP endpoints
-    ├── auth.service.ts      # Business logic
-    ├── entities/            # Database schemas owned by auth
-    │   ├── user.schema.ts
-    │   └── refresh-token.schema.ts
-    ├── guards/              # Auth-specific guards
-    │   ├── google-auth.guard.ts
-    │   └── github-auth.guard.ts
-    └── strategies/          # Passport strategies
-        ├── google.strategy.ts
-        ├── github.strategy.ts
-        └── jwt.strategy.ts
+├── auth/
+│   ├── auth.module.ts       # Module definition
+│   ├── auth.controller.ts   # HTTP endpoints
+│   ├── auth.service.ts      # Business logic
+│   ├── entities/            # Database schemas owned by auth
+│   │   ├── user.schema.ts
+│   │   └── refresh-token.schema.ts
+│   ├── guards/              # Auth-specific guards
+│   │   ├── google-auth.guard.ts
+│   │   └── github-auth.guard.ts
+│   └── strategies/          # Passport strategies
+│       ├── google.strategy.ts
+│       ├── github.strategy.ts
+│       └── jwt.strategy.ts
+│
+└── subjects/
+    ├── subjects.module.ts   # Module definition
+    ├── subjects.controller.ts
+    ├── subjects.service.ts
+    └── entities/
+        └── subject.schema.ts
 ```
 
 ## Design Principles

@@ -6,7 +6,14 @@
       "idx": 0,
       "version": "7",
       "when": 1767034705688,
-      "tag": "0000_auth-initial",
+      "tag": "0000_auth_initial",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767201685740,
+      "tag": "0001_subjects_table",
       "breakpoints": true
     }
   ]

@@ -44,14 +44,23 @@ backend/
 │       │       ├── github.strategy.ts
 │       │       └── jwt.strategy.ts
 │       │
-│       └── subjects/
-│           ├── subjects.module.ts   # Subjects module definition
-│           ├── subjects.controller.ts
-│           ├── subjects.service.ts
+│       ├── subjects/
+│       │   ├── subjects.module.ts   # Subjects module definition
+│       │   ├── subjects.controller.ts
+│       │   ├── subjects.service.ts
+│       │   ├── index.ts             # Barrel export
+│       │   └── entities/
+│       │       ├── index.ts
+│       │       └── subject.schema.ts
+│       │
+│       └── users/
+│           ├── users.module.ts      # Users module definition
+│           ├── users.controller.ts
+│           ├── users.service.ts
 │           ├── index.ts             # Barrel export
-│           └── entities/
+│           └── dto/
 │               ├── index.ts
-│               └── subject.schema.ts
+│               └── update-user.dto.ts
 │
 ├── docs/                            # Documentation
 │   ├── README.md                    # Docs index
@@ -64,7 +73,8 @@ backend/
 │   │   └── auth-flow.md             # OAuth flow explanation
 │   └── api/                         # API documentation
 │       ├── auth-endpoints.md        # Auth API reference
-│       └── subjects-endpoints.md    # Subjects API reference
+│       ├── subjects-endpoints.md    # Subjects API reference
+│       └── users-endpoints.md       # Users API reference
 │
 ├── drizzle/                         # Generated migrations
 │   └── *.sql                        # SQL migration files

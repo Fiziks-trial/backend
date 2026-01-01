@@ -15,6 +15,13 @@
       "when": 1767201685740,
       "tag": "0001_subjects_table",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767290950620,
+      "tag": "0002_add_username_and_coins_to_users",
+      "breakpoints": true
     }
   ]
 }

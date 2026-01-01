@@ -8,7 +8,13 @@ import { SubjectsModule } from './modules/subjects/subjects.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule, AuthModule, SubjectsModule, UsersModule],
+  imports: [
+    ConfigModule,
+    DatabaseModule,
+    AuthModule,
+    SubjectsModule,
+    UsersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

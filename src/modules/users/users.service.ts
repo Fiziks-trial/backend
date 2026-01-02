@@ -8,7 +8,7 @@ import {
 import { eq, ilike, and, isNotNull } from 'drizzle-orm';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { DATABASE_CONNECTION } from '../../database/database.providers';
-import { users, User } from '../auth/entities';
+import { users, User } from './entities';
 import { UpdateUserDto } from './dto';
 
 @Injectable()

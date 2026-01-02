@@ -4,8 +4,9 @@ import { JwtService } from '@nestjs/jwt';
 import { eq, and } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 import { DATABASE_CONNECTION } from '../../database/database.providers';
-import { users, refreshTokens, User, NewUser } from './entities';
+import { refreshTokens } from './entities';
 import { JwtPayload, JwtTokens } from '../../common';
+import { NewUser, User, users } from '../users';
 
 @Injectable()
 export class AuthService {

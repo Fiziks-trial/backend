@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1767034705688,
+      "tag": "0000_auth_initial",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767201685740,
+      "tag": "0001_subjects_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767290950620,
+      "tag": "0002_add_username_and_coins_to_users",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767369314830,
+      "tag": "0003_add_matches_and_user_stats",
+      "breakpoints": true
+    }
+  ]
+}

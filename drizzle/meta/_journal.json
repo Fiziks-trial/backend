@@ -29,6 +29,13 @@
       "when": 1767369314830,
       "tag": "0003_add_matches_and_user_stats",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1767548795657,
+      "tag": "0004_denormalize_matches_schema",
+      "breakpoints": true
     }
   ]
 }

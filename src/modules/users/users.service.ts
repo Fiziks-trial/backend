@@ -5,10 +5,11 @@ import {
   ConflictException,
   BadRequestException,
 } from '@nestjs/common';
-import { eq, ilike, and, isNotNull } from 'drizzle-orm';
+import { eq, ilike, and, isNotNull, desc } from 'drizzle-orm';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { DATABASE_CONNECTION } from '../../database/database.providers';
-import { users, User } from './entities';
+import { users, userSubjectStats } from './entities';
+import { subjects } from '../subjects/entities';
 import { UpdateUserDto } from './dto';
 
 @Injectable()
@@ -18,9 +19,22 @@ export class UsersService {
     private readonly db: PostgresJsDatabase,
   ) {}
 
-  async findUserById(id: string): Promise<User> {
+  async findUserById(id: string) {
     const result = await this.db
-      .select()
+      .select({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        username: users.username,
+        avatar: users.avatar,
+        xp: users.xp,
+        totalMatches: users.totalMatches,
+        wins: users.wins,
+        losses: users.losses,
+        draws: users.draws,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
+      })
       .from(users)
       .where(eq(users.id, id))
       .limit(1);
@@ -32,10 +46,10 @@ export class UsersService {
     return result[0];
   }
 
-  async updateUser(id: string, data: UpdateUserDto): Promise<User> {
+  async updateUser(id: string, data: UpdateUserDto) {
     if (data.username) {
       const existing = await this.db
-        .select()
+        .select({ id: users.id })
         .from(users)
         .where(eq(users.username, data.username))
         .limit(1);
@@ -52,7 +66,20 @@ export class UsersService {
         updatedAt: new Date(),
       })
       .where(eq(users.id, id))
-      .returning();
+      .returning({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        username: users.username,
+        avatar: users.avatar,
+        xp: users.xp,
+        totalMatches: users.totalMatches,
+        wins: users.wins,
+        losses: users.losses,
+        draws: users.draws,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
+      });
 
     if (!result.length) {
       throw new NotFoundException('User not found');
@@ -122,5 +149,32 @@ export class UsersService {
       users: result,
       count: result.length,
     };
+  }
+
+  async getUserSubjectStats(userId: string) {
+    const stats = await this.db
+      .select({
+        id: userSubjectStats.id,
+        subjectId: userSubjectStats.subjectId,
+        elo: userSubjectStats.elo,
+        matches: userSubjectStats.matches,
+        wins: userSubjectStats.wins,
+        losses: userSubjectStats.losses,
+        draws: userSubjectStats.draws,
+        currentStreak: userSubjectStats.currentStreak,
+        maxStreak: userSubjectStats.maxStreak,
+        lastPlayedAt: userSubjectStats.lastPlayedAt,
+        subject: {
+          name: subjects.name,
+          slug: subjects.slug,
+          icon: subjects.icon,
+        },
+      })
+      .from(userSubjectStats)
+      .innerJoin(subjects, eq(userSubjectStats.subjectId, subjects.id))
+      .where(eq(userSubjectStats.userId, userId))
+      .orderBy(desc(userSubjectStats.elo));
+
+    return stats;
   }
 }

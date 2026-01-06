@@ -1,4 +1,14 @@
-import { IsEnum, IsString, IsArray, IsInt, Min, Max, IsOptional, ArrayMinSize, ArrayMaxSize } from 'class-validator';
+import {
+  IsEnum,
+  IsString,
+  IsArray,
+  IsInt,
+  Min,
+  Max,
+  IsOptional,
+  ArrayMinSize,
+  ArrayMaxSize,
+} from 'class-validator';
 import { Subject, Difficulty, SUBJECTS, DIFFICULTIES } from '../problem.types';
 
 export class CreateProblemDto {

@@ -28,17 +28,6 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@nestjs/common": "^11.1.10",
-    "@nestjs/core": "^11.1.10",
-    "@nestjs/mapped-types": "^2.1.0",
-    "@nestjs/platform-express": "11.1.9",
-    "@nestjs/testing": "^11.1.10",
-    "@types/pg": "^8.16.0",
-    "dotenv": "^17.2.3",
-    "drizzle-orm": "^0.45.1",
-    "pg": "^8.16.3",
-=======
     "@nestjs/common": "11.1.9",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "11.1.9",
@@ -54,7 +43,6 @@
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
->>>>>>> origin/main
     "postgres": "^3.4.7",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2"

@@ -5,7 +5,7 @@ import {
   BadRequestException,
   Inject,
 } from '@nestjs/common';
-import { problems, subjectEnum, difficultyEnum } from '../../db/schema/problem';
+import { problems } from '../../db/schema/problem';
 import { eq, sql, desc } from 'drizzle-orm';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';

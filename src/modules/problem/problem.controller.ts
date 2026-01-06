@@ -60,7 +60,7 @@ export class ProblemController {
     }
     const p = await this.service.findById(id);
     // remove correctIndex
-    const { correctIndex, ...safe } = p;
+    const { ...safe } = p;
     return safe;
   }
 

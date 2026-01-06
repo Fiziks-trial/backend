@@ -58,14 +58,20 @@ Handles user authentication via Google and GitHub OAuth.
 ### Users Module
 Manages user profiles and statistics.
 
-**Endpoints:**
+**Implemented Endpoints:**
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/users/:id` | Get user by ID |
-| GET | `/users/:id/profile` | Get user profile with stats |
-| GET | `/users/username/:username` | Get user by username |
-| PATCH | `/users/me` | Update current user profile |
-| GET | `/users/search?q=` | Search users by username |
+| GET | `/users?search=&limit=` | Search users by username |
+| GET | `/users/me` | Get current user profile (auth) |
+| PATCH | `/users/me` | Update current user profile (auth) |
+| GET | `/users/username/:username` | Get public profile by username |
+| GET | `/users/:id` | Get public profile by ID |
+
+**Planned Endpoints:**
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/users/:id/stats` | Get user profile with subject stats |
+| GET | `/users/:id/matches` | Get user's match history |
 
 ### Subjects Module
 Manages available game subjects.

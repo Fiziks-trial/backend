@@ -7,6 +7,7 @@ import {
 } from 'class-validator';
 
 export class UpdateUserDto {
+  /** Username (3-20 chars, letters, numbers, underscores only) */
   @IsOptional()
   @IsString()
   @MinLength(3)
@@ -16,6 +17,7 @@ export class UpdateUserDto {
   })
   username?: string;
 
+  /** Avatar URL */
   @IsOptional()
   @IsString()
   avatar?: string;

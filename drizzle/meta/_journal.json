@@ -33,8 +33,15 @@
     {
       "idx": 4,
       "version": "7",
+      "when": 1767646320568,
+      "tag": "0004_add_problem_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
       "when": 1767548795657,
-      "tag": "0004_denormalize_matches_schema",
+      "tag": "0005_denormalize_matches_schema",
       "breakpoints": true
     }
   ]

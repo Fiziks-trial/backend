@@ -1,5 +1,5 @@
 {
-  "id": "48316cbe-d198-4d8a-b2a2-79590e33dd46",
+  "id": "027c1b1c-a231-4565-ad0e-1df8fcb4d4cd",
   "prevId": "d4ab8c3a-ce41-4968-9c84-b8e5a998256e",
   "version": "7",
   "dialect": "postgresql",
@@ -70,6 +70,151 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.match_participants": {
+      "name": "match_participants",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "match_id": {
+          "name": "match_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "correct_answers": {
+          "name": "correct_answers",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "rating_before": {
+          "name": "rating_before",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1200
+        },
+        "rating_after": {
+          "name": "rating_after",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1200
+        },
+        "rating_change": {
+          "name": "rating_change",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "xp_earned": {
+          "name": "xp_earned",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "joined_at": {
+          "name": "joined_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "match_participants_user_idx": {
+          "name": "match_participants_user_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "match_participants_match_user_idx": {
+          "name": "match_participants_match_user_idx",
+          "columns": [
+            {
+              "expression": "match_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "match_participants_match_id_matches_id_fk": {
+          "name": "match_participants_match_id_matches_id_fk",
+          "tableFrom": "match_participants",
+          "tableTo": "matches",
+          "columnsFrom": [
+            "match_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "match_participants_user_id_users_id_fk": {
+          "name": "match_participants_user_id_users_id_fk",
+          "tableFrom": "match_participants",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.matches": {
       "name": "matches",
       "schema": "",
@@ -86,98 +231,6 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
-        },
-        "subject_name": {
-          "name": "subject_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "subject_icon": {
-          "name": "subject_icon",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "player1_id": {
-          "name": "player1_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "player1_username": {
-          "name": "player1_username",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "player1_score": {
-          "name": "player1_score",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 0
-        },
-        "player1_rating_before": {
-          "name": "player1_rating_before",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 1200
-        },
-        "player1_rating_after": {
-          "name": "player1_rating_after",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 1200
-        },
-        "player1_rating_change": {
-          "name": "player1_rating_change",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 0
-        },
-        "player2_id": {
-          "name": "player2_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "player2_username": {
-          "name": "player2_username",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "player2_score": {
-          "name": "player2_score",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 0
-        },
-        "player2_rating_before": {
-          "name": "player2_rating_before",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 1200
-        },
-        "player2_rating_after": {
-          "name": "player2_rating_after",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 1200
-        },
-        "player2_rating_change": {
-          "name": "player2_rating_change",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 0
         },
         "status": {
           "name": "status",
@@ -214,56 +267,17 @@
         }
       },
       "indexes": {
-        "matches_player1_idx": {
-          "name": "matches_player1_idx",
-          "columns": [
-            {
-              "expression": "player1_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "matches_player2_idx": {
-          "name": "matches_player2_idx",
-          "columns": [
-            {
-              "expression": "player2_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "matches_subject_idx": {
-          "name": "matches_subject_idx",
-          "columns": [
-            {
-              "expression": "subject_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "matches_status_idx": {
-          "name": "matches_status_idx",
+        "matches_status_subject_idx": {
+          "name": "matches_status_subject_idx",
           "columns": [
             {
               "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "subject_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -304,32 +318,6 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "matches_player1_id_users_id_fk": {
-          "name": "matches_player1_id_users_id_fk",
-          "tableFrom": "matches",
-          "tableTo": "users",
-          "columnsFrom": [
-            "player1_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "matches_player2_id_users_id_fk": {
-          "name": "matches_player2_id_users_id_fk",
-          "tableFrom": "matches",
-          "tableTo": "users",
-          "columnsFrom": [
-            "player2_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
         "matches_winner_id_users_id_fk": {
           "name": "matches_winner_id_users_id_fk",
           "tableFrom": "matches",
@@ -344,6 +332,115 @@
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.problems": {
+      "name": "problems",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "subject": {
+          "name": "subject",
+          "type": "subject",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "topic": {
+          "name": "topic",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "difficulty": {
+          "name": "difficulty",
+          "type": "difficulty",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question": {
+          "name": "question",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "options": {
+          "name": "options",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "correct_index": {
+          "name": "correct_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "explanation": {
+          "name": "explanation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hint": {
+          "name": "hint",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "animation_type": {
+          "name": "animation_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "animation_config": {
+          "name": "animation_config",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "time_limit": {
+          "name": "time_limit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 15
+        },
+        "points": {
+          "name": "points",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 10
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -766,7 +863,27 @@
       "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.difficulty": {
+      "name": "difficulty",
+      "schema": "public",
+      "values": [
+        "easy",
+        "medium",
+        "hard"
+      ]
+    },
+    "public.subject": {
+      "name": "subject",
+      "schema": "public",
+      "values": [
+        "physics",
+        "chemistry",
+        "biology",
+        "math"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},

@@ -1,6 +1,6 @@
 import { Module, Global } from '@nestjs/common';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Global()
@@ -17,14 +17,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           throw new Error('DATABASE_URL is not defined');
         }
 
-        const pool = new Pool({
-          connectionString: databaseUrl,
-          ssl: {
-            rejectUnauthorized: false, // REQUIRED for Supabase
-          },
-        });
-
-        return drizzle(pool);
+        const client = postgres(databaseUrl);
+        return drizzle(client);
       },
     },
   ],

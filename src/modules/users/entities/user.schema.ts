@@ -7,6 +7,9 @@ import {
   integer,
 } from 'drizzle-orm/pg-core';
 
+export const userRoles = ['user', 'admin'] as const;
+export type UserRole = (typeof userRoles)[number];
+
 export const users = pgTable(
   'users',
   {
@@ -17,6 +20,7 @@ export const users = pgTable(
     provider: text('provider').notNull(),
     providerId: text('provider_id').notNull(),
     username: text('username').unique(),
+    role: text('role').notNull().default('user').$type<UserRole>(),
     xp: integer('xp').notNull().default(0),
     totalMatches: integer('total_matches').notNull().default(0),
     wins: integer('wins').notNull().default(0),

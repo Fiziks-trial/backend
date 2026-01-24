@@ -10,7 +10,7 @@ import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { DATABASE_CONNECTION } from '../../database/database.providers';
 import { users, userSubjectStats } from './entities';
 import { subjects } from '../subjects/entities';
-import { UpdateUserDto } from './dto';
+import { UpdateUserDto, UpdateUserRoleDto } from './dto';
 
 @Injectable()
 export class UsersService {
@@ -176,5 +176,44 @@ export class UsersService {
       .orderBy(desc(userSubjectStats.elo));
 
     return stats;
+  }
+
+  async getAllUsers(limit: number = 50, offset: number = 0) {
+    const result = await this.db
+      .select({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        username: users.username,
+        avatar: users.avatar,
+        role: users.role,
+        createdAt: users.createdAt,
+      })
+      .from(users)
+      .limit(limit)
+      .offset(offset);
+
+    return result;
+  }
+
+  async updateUserRole(id: string, data: UpdateUserRoleDto) {
+    const result = await this.db
+      .update(users)
+      .set({
+        role: data.role,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id))
+      .returning({
+        id: users.id,
+        email: users.email,
+        role: users.role,
+      });
+
+    if (!result.length) {
+      throw new NotFoundException('User not found');
+    }
+
+    return result[0];
   }
 }
